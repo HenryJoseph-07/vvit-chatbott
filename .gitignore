@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+debug.py
+scraper.py
+scraper_vvitu.py
+smart_scraper.py
+check.py

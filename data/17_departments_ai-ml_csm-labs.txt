@@ -1,0 +1,40 @@
+Source: https://www.vvitguntur.com/departments/ai-ml/csm-labs
+
+Important Labs
+Search
+Details
+Category:
+Department Pages
+List of labs along with equipment
+S.NO
+ROOM NO
+NAME OF THE LAB
+NO.OF SYSTEMS
+CONFIGURATION
+CB-305
+AI INNOVATION LAB
+HP COMPUTERS: Intel I7 Processor,16 GB RAM,512 GB SSD,
+ACER 19.5 MONITOR
+CB-306
+MACHINE LEARNING LAB
+CB-307
+PROGRAMMING LAB
+ACER LAPTOPS:INTEL I3 Processor,8 GB RAM,500 GB HARD DISK
+CB-405
+NEXTGEN COMPUTING LAB
+CB-406
+CLOUD COMPUTING LAB
+CB-407
+DEEP VISION LAB
+Route
+Address
+and Phone
+Vasireddy Venkatadri Institute of Technology
+Nambur (V)
+Peda Kakani (Md)
+Guntur (Dt)
+Andhra Pradesh
+522508
+9951 023 336
+9849 542 336
+Desktop Version
