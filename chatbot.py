@@ -1,30 +1,28 @@
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
-import warnings
-import os
-
+import warnings, os
 warnings.filterwarnings("ignore")
 
 load_dotenv()
 
-CHROMA_DIR = "vectorstore"
+FAISS_DIR = "vectorstore_faiss"
 
 def load_qa_chain():
     print("Loading vector database...")
-
     embeddings = HuggingFaceEmbeddings(
         model_name="all-MiniLM-L6-v2",
         model_kwargs={"device": "cpu"}
     )
 
-    vectordb = Chroma(
-        persist_directory=CHROMA_DIR,
-        embedding_function=embeddings
+    vectordb = FAISS.load_local(
+        FAISS_DIR,
+        embeddings,
+        allow_dangerous_deserialization=True
     )
 
     retriever = vectordb.as_retriever(
@@ -33,10 +31,8 @@ def load_qa_chain():
     )
 
     api_key = os.getenv("GROQ_API_KEY")
-
     if not api_key:
-        raise ValueError("GROQ_API_KEY not found in .env file")
-
+        raise ValueError("GROQ_API_KEY not found")
     print(f"API key loaded: {api_key[:8]}...")
 
     llm = ChatGroq(
@@ -49,7 +45,6 @@ def load_qa_chain():
 You are VVIT Assistant, a helpful AI chatbot for Vasireddy Venkatadri Institute of Technology (VVIT), Guntur, Andhra Pradesh.
 
 Use the following information from the VVIT website to answer the question.
-
 If the answer is not in the provided information, say:
 "I don't have that information right now. Please contact VVIT directly at www.vvitguntur.com"
 
@@ -79,35 +74,8 @@ Answer:
 
     return chain, retriever
 
-
 def ask(chain_tuple, question):
     chain, retriever = chain_tuple
-
     answer = chain.invoke(question)
-
     sources = retriever.invoke(question)
-
     return answer, sources
-
-
-if __name__ == "__main__":
-    chain_tuple = load_qa_chain()
-
-    print("\nVVIT Assistant ready! Type 'quit' to exit.\n")
-
-    while True:
-        q = input("You: ").strip()
-
-        if q.lower() == "quit":
-            break
-
-        if not q:
-            continue
-
-        answer, sources = ask(chain_tuple, q)
-
-        print(f"\nAssistant: {answer}")
-
-        print(
-            f"\nSources: {set(doc.metadata.get('source', '') for doc in sources)}\n"
-        )

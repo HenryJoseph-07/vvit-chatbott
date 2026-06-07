@@ -2,8 +2,7 @@ streamlit
 python-dotenv
 langchain-core
 langchain-community
-langchain-chroma==1.1.0
 langchain-groq
 langchain-text-splitters
 sentence-transformers
-chromadb
+faiss-cpu

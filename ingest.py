@@ -1,12 +1,12 @@
-from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import warnings
 warnings.filterwarnings("ignore")
 
 DATA_DIR = "data"
-CHROMA_DIR = "vectorstore"
+FAISS_DIR = "vectorstore_faiss"
 
 print("Loading documents...")
 loader = DirectoryLoader(
@@ -18,27 +18,23 @@ loader = DirectoryLoader(
 docs = loader.load()
 print(f"Loaded {len(docs)} documents")
 
-print("\nSplitting into chunks...")
+print("Splitting into chunks...")
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,
-    chunk_overlap=50,
-    separators=["\n\n", "\n", ".", " "]
+    chunk_overlap=50
 )
 chunks = splitter.split_documents(docs)
 print(f"Created {len(chunks)} chunks")
 
-print("\nLoading embedding model (first time ~90MB download)...")
+print("Loading embeddings...")
 embeddings = HuggingFaceEmbeddings(
     model_name="all-MiniLM-L6-v2",
     model_kwargs={"device": "cpu"}
 )
 
-print("\nCreating vector database...")
-vectordb = Chroma.from_documents(
-    documents=chunks,
-    embedding=embeddings,
-    persist_directory=CHROMA_DIR
-)
+print("Creating FAISS vector database...")
+vectordb = FAISS.from_documents(chunks, embeddings)
+vectordb.save_local(FAISS_DIR)
 
-print(f"\nDone! Vector database saved to /{CHROMA_DIR}")
-print(f"Total chunks indexed: {len(chunks)}")
+print(f"Done! Saved to /{FAISS_DIR}")
+print(f"Total chunks: {len(chunks)}")
