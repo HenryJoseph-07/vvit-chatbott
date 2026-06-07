@@ -1,46 +1,39 @@
-import os
-os.environ["GRADIO_SSR_MODE"] = "false"
-import gradio as gr
+import streamlit as st
 import warnings
 import os
 warnings.filterwarnings("ignore")
 
-chain_tuple = None
+from chatbot import load_qa_chain, ask
 
+st.set_page_config(page_title="VVIT Assistant", page_icon="🎓")
+st.title("🎓 VVIT College Assistant")
+st.caption("Ask me anything about Vasireddy Venkatadri Institute of Technology")
+
+@st.cache_resource
 def get_chain():
-    global chain_tuple
-    if chain_tuple is None:
-        from chatbot import load_qa_chain
-        chain_tuple = load_qa_chain()
-    return chain_tuple
+    return load_qa_chain()
 
-def respond(message, history):
-    try:
-        from chatbot import ask
-        answer, sources = ask(get_chain(), message)
-        source_urls = list(set(doc.metadata.get('source', '') for doc in sources))
-        sources_text = "\n\n**Sources:**\n" + "\n".join(f"- {url}" for url in source_urls if url)
-        return answer + sources_text
-    except Exception as e:
-        return f"Error: {str(e)}"
+chain_tuple = get_chain()
 
-demo = gr.ChatInterface(
-    fn=respond,
-    title="🎓 VVIT College Assistant",
-    description="Ask me anything about Vasireddy Venkatadri Institute of Technology — admissions, placements, departments, faculty, facilities and more!",
-    examples=[
-        "Tell me about VVIT",
-        "What are the departments?",
-        "Tell me about placements",
-        "Who is the principal?",
-        "What facilities does VVIT have?"
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hi! I'm the VVIT Assistant. Ask me about admissions, placements, departments, faculty or anything about VVIT!"}
     ]
-)
 
-if __name__ == "__main__":
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=7860,
-        ssr_mode=False,
-        show_error=True
-    )
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+if prompt := st.chat_input("Ask about VVIT..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    with st.chat_message("assistant"):
+        with st.spinner("Thinking..."):
+            answer, sources = ask(chain_tuple, prompt)
+            st.markdown(answer)
+            source_urls = list(set(doc.metadata.get('source','') for doc in sources))
+            with st.expander("Sources"):
+                for url in source_urls:
+                    st.write(url)
+    st.session_state.messages.append({"role": "assistant", "content": answer})
