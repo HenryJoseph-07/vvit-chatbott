@@ -1,6 +1,6 @@
 streamlit
 python-dotenv
-langchain-core==0.3.74
+langchain-core==0.3.75
 langchain-community==0.3.27
 langchain-chroma==0.2.2
 langchain-groq==0.3.2
