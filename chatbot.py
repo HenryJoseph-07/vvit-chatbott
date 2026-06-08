@@ -27,7 +27,7 @@ def load_qa_chain():
 
     retriever = vectordb.as_retriever(
         search_type="similarity",
-        search_kwargs={"k": 4}
+       search_kwargs={"k": 8}
     )
 
     api_key = os.getenv("GROQ_API_KEY")
