@@ -11,286 +11,153 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
-* { font-family: 'Inter', sans-serif; }
+html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 
-#MainMenu, footer, header { visibility: hidden; }
+#MainMenu, footer { visibility: hidden; }
+header[data-testid="stHeader"] { background: #080C10 !important; }
+
+div[data-testid="stApp"] { background: #080C10 !important; }
+
+.main .block-container { padding: 0 !important; max-width: 100% !important; }
 
 section[data-testid="stSidebar"] {
-    background: #0f1419;
-    border-right: 1px solid #1e2a3a;
-    width: 280px !important;
+    background: #0D1117 !important;
+    border-right: 1px solid #21262D !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+}
+section[data-testid="stSidebar"] > div { padding: 0 !important; }
+
+.stButton > button {
+    background: #161B22 !important;
+    border: 1px solid #21262D !important;
+    color: #8B949E !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+    text-align: left !important;
+    padding: 7px 10px !important;
+    width: 100% !important;
+    margin-bottom: 3px !important;
+    transition: all 0.2s !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.stButton > button:hover {
+    background: #1C2128 !important;
+    border-color: #E6A817 !important;
+    color: #E6A817 !important;
 }
 
-section[data-testid="stSidebar"] * { color: #e2e8f0 !important; }
-
-.main .block-container {
-    padding: 0 !important;
-    max-width: 100% !important;
-}
-
-.hero-banner {
-    background: #0f1419;
-    border-bottom: 1px solid #1e2a3a;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.hero-left { display: flex; align-items: center; gap: 16px; }
-
-.hero-logo {
-    width: 48px; height: 48px;
-    background: #d4a017;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-}
-
-.hero-title { color: #f0c040; font-size: 22px; font-weight: 600; margin: 0; }
-.hero-sub { color: #94a3b8; font-size: 13px; margin: 2px 0 0; }
-
-.hero-stats { display: flex; gap: 24px; }
-
-.stat-item { text-align: center; }
-.stat-num { color: #f0c040; font-size: 20px; font-weight: 600; }
-.stat-lbl { color: #64748b; font-size: 11px; }
-
-.badge-row {
-    display: flex; gap: 8px; padding: 12px 32px;
-    background: #0a0f14;
-    border-bottom: 1px solid #1e2a3a;
-    flex-wrap: wrap;
-}
-
-.badge {
-    background: #1e2a3a;
-    color: #94a3b8;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    border: 1px solid #2d3f50;
-}
-
-.badge.active {
-    background: #d4a017;
-    color: #0f1419;
-    border-color: #d4a017;
-    font-weight: 500;
-}
-
-.chat-area {
-    padding: 24px 32px;
-    max-width: 860px;
-    margin: 0 auto;
-}
-
-.stChatMessage {
-    background: transparent !important;
+[data-testid="stChatInput"] textarea {
+    background: #161B22 !important;
+    border: 1px solid #30363D !important;
+    color: #E6EDF3 !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
 [data-testid="stChatMessageContent"] {
-    background: #131b24 !important;
-    border: 1px solid #1e2a3a !important;
-    border-radius: 12px !important;
-    color: #e2e8f0 !important;
+    background: #161B22 !important;
+    border: 1px solid #21262D !important;
+    border-radius: 10px !important;
+    color: #E6EDF3 !important;
 }
 
-[data-testid="stChatInput"] {
-    background: #131b24 !important;
-    border: 1px solid #2d3f50 !important;
-    border-radius: 12px !important;
-    color: #e2e8f0 !important;
-}
+.stSpinner > div { border-top-color: #E6A817 !important; }
 
-.sidebar-section {
-    padding: 16px;
-    border-bottom: 1px solid #1e2a3a;
-}
-
-.sidebar-label {
-    font-size: 11px;
-    color: #64748b !important;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 10px;
-    font-weight: 500;
-}
-
-.stButton button {
-    background: #131b24 !important;
-    border: 1px solid #2d3f50 !important;
-    color: #94a3b8 !important;
+.stExpander {
+    background: #161B22 !important;
+    border: 1px solid #21262D !important;
     border-radius: 8px !important;
-    font-size: 12px !important;
-    text-align: left !important;
-    padding: 8px 12px !important;
-    width: 100% !important;
-    transition: all 0.15s !important;
-}
-
-.stButton button:hover {
-    background: #1e2a3a !important;
-    border-color: #d4a017 !important;
-    color: #f0c040 !important;
-}
-
-.welcome-card {
-    background: #131b24;
-    border: 1px solid #1e2a3a;
-    border-left: 3px solid #d4a017;
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-}
-
-.welcome-title {
-    color: #f0c040;
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
-
-.welcome-text { color: #94a3b8; font-size: 14px; line-height: 1.6; }
-
-.quick-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 16px;
-}
-
-.quick-chip {
-    background: #1e2a3a;
-    border: 1px solid #2d3f50;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #94a3b8;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-
-.quick-chip:hover {
-    border-color: #d4a017;
-    color: #f0c040;
-}
-
-.source-pill {
-    display: inline-block;
-    background: #1e2a3a;
-    border: 1px solid #2d3f50;
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 11px;
-    color: #64748b;
-    margin: 2px;
-}
-
-div[data-testid="stApp"] {
-    background: #0a0f14 !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="hero-banner">
-    <div class="hero-left">
-        <div class="hero-logo">🎓</div>
-        <div>
-            <div class="hero-title">VVIT College Assistant</div>
-            <div class="hero-sub">Vasireddy Venkatadri Institute of Technology, Guntur, AP</div>
+# ── SIDEBAR ──────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("""
+    <div style="padding:20px 16px 12px; border-bottom:1px solid #21262D;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+            <div style="width:36px;height:36px;background:#E6A817;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🎓</div>
+            <div>
+                <div style="color:#E6A817;font-weight:600;font-size:14px;">VVIT Assistant</div>
+                <div style="color:#484F58;font-size:11px;">AI Powered</div>
+            </div>
         </div>
     </div>
-    <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num">15+</div><div class="stat-lbl">Departments</div></div>
-        <div class="stat-item"><div class="stat-num">200+</div><div class="stat-lbl">Faculty</div></div>
-        <div class="stat-item"><div class="stat-num">5000+</div><div class="stat-lbl">Students</div></div>
-        <div class="stat-item"><div class="stat-num">100+</div><div class="stat-lbl">Recruiters</div></div>
+    """, unsafe_allow_html=True)
+
+    nav = {
+        "🏫 Departments": ["CSE department","ECE department","AI & ML dept","IT department","Civil dept","Mechanical dept"],
+        "👨‍🏫 Faculty": ["CSE HOD details","CSE faculty list","ECE faculty","AI ML faculty","IT faculty"],
+        "📚 Academics": ["R23 CSE subjects","R23 ECE subjects","Academic calendar","Exam schedule","CGPA system"],
+        "💼 Placements": ["Placement stats","Top recruiters","Highest package","Placement process","Internships"],
+        "🏛️ Campus": ["Hostel details","Library info","Sports facilities","Transport","Labs & infra"],
+        "📋 Admissions": ["Fee structure","Admission process","Scholarships","Eligibility criteria"],
+    }
+
+    for section, questions in nav.items():
+        st.markdown(f"""
+        <div style="padding:10px 16px 4px;">
+            <div style="color:#484F58;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;">{section}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        for q in questions:
+            if st.button(q, key=f"q_{q}"):
+                st.session_state.quick_query = q
+
+    st.markdown("""
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;border-top:1px solid #21262D;background:#0D1117;">
+        <div style="font-size:11px;color:#484F58;line-height:1.7;">
+            Built by <span style="color:#E6A817;">Henry Joseph</span><br>
+            Powered by Groq LLaMA 3.1<br>
+            Data: vvitguntur.com
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ── MAIN AREA ─────────────────────────────────────────────
+st.markdown("""
+<div style="background:#0D1117;border-bottom:1px solid #21262D;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:14px;">
+        <div style="background:#E6A817;width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">🎓</div>
+        <div>
+            <div style="color:#E6EDF3;font-size:18px;font-weight:600;">VVIT College Assistant</div>
+            <div style="color:#484F58;font-size:12px;">Vasireddy Venkatadri Institute of Technology · Guntur, AP</div>
+        </div>
+    </div>
+    <div style="display:flex;gap:20px;">
+        <div style="text-align:center;">
+            <div style="color:#E6A817;font-size:18px;font-weight:600;">15+</div>
+            <div style="color:#484F58;font-size:10px;">Depts</div>
+        </div>
+        <div style="text-align:center;">
+            <div style="color:#E6A817;font-size:18px;font-weight:600;">200+</div>
+            <div style="color:#484F58;font-size:10px;">Faculty</div>
+        </div>
+        <div style="text-align:center;">
+            <div style="color:#E6A817;font-size:18px;font-weight:600;">5K+</div>
+            <div style="color:#484F58;font-size:10px;">Students</div>
+        </div>
+        <div style="text-align:center;">
+            <div style="color:#E6A817;font-size:18px;font-weight:600;">100+</div>
+            <div style="color:#484F58;font-size:10px;">Recruiters</div>
+        </div>
     </div>
 </div>
-<div class="badge-row">
-    <span class="badge active">AI Powered</span>
-    <span class="badge">NAAC Accredited</span>
-    <span class="badge">NBA Certified</span>
-    <span class="badge">Autonomous College</span>
-    <span class="badge">NIRF Ranked</span>
-    <span class="badge">ISO Certified</span>
+
+<div style="background:#080C10;padding:8px 32px;border-bottom:1px solid #21262D;display:flex;gap:8px;flex-wrap:wrap;">
+    <span style="background:#E6A817;color:#080C10;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">AI Powered</span>
+    <span style="background:#161B22;color:#8B949E;border:1px solid #30363D;padding:3px 10px;border-radius:20px;font-size:11px;">NAAC A+</span>
+    <span style="background:#161B22;color:#8B949E;border:1px solid #30363D;padding:3px 10px;border-radius:20px;font-size:11px;">NBA Certified</span>
+    <span style="background:#161B22;color:#8B949E;border:1px solid #30363D;padding:3px 10px;border-radius:20px;font-size:11px;">Autonomous</span>
+    <span style="background:#161B22;color:#8B949E;border:1px solid #30363D;padding:3px 10px;border-radius:20px;font-size:11px;">NIRF Ranked</span>
+    <span style="background:#161B22;color:#8B949E;border:1px solid #30363D;padding:3px 10px;border-radius:20px;font-size:11px;">ISO 9001</span>
 </div>
 """, unsafe_allow_html=True)
 
-with st.sidebar:
-    st.markdown("""
-    <div style="padding: 20px 16px 8px;">
-        <div style="font-size:15px; font-weight:500; color:#f0c040; margin-bottom:4px;">Quick Navigation</div>
-        <div style="font-size:12px; color:#64748b;">Tap to ask instantly</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    categories = {
-        "Academics": [
-            "R23 CSE subjects list",
-            "Examination schedule",
-            "Academic calendar",
-            "R23 regulations overview"
-        ],
-        "Departments": [
-            "CSE department details",
-            "ECE department info",
-            "AI & ML department",
-            "IT department details"
-        ],
-        "Faculty": [
-            "Who is CSE HOD?",
-            "CSE faculty list",
-            "ECE faculty details",
-            "AI ML faculty"
-        ],
-        "Placements": [
-            "Placement statistics",
-            "Top recruiters at VVIT",
-            "Highest package offered",
-            "Placement process"
-        ],
-        "Campus Life": [
-            "Hostel facilities",
-            "Transport details",
-            "Library details",
-            "Sports & extracurricular"
-        ],
-        "Admissions": [
-            "Fee structure",
-            "Admission process",
-            "Eligibility criteria",
-            "Scholarship details"
-        ]
-    }
-
-    for category, questions in categories.items():
-        st.markdown(f'<div class="sidebar-label" style="padding: 12px 16px 4px;">{category}</div>', unsafe_allow_html=True)
-        for q in questions:
-            if st.button(q, key=f"btn_{q}", use_container_width=True):
-                st.session_state.quick_query = q
-
-    st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
-    st.markdown('<div class="sidebar-label" style="padding: 0 16px 8px;">Actions</div>', unsafe_allow_html=True)
-
-    if st.button("Clear conversation", key="clear", use_container_width=True):
-        st.session_state.messages = []
-        st.rerun()
-
-    st.markdown("""
-    <div style="padding: 16px; border-top: 1px solid #1e2a3a; margin-top: 8px;">
-        <div style="font-size:11px; color:#475569; line-height:1.6;">
-            Powered by Groq LLaMA 3.1<br>
-            Data from vvitguntur.com<br>
-            Built by Henry Joseph
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
+# Load chain
 @st.cache_resource(show_spinner="Loading VVIT knowledge base...")
 def get_chain():
     from chatbot import load_qa_chain
@@ -300,20 +167,38 @@ chain_tuple = get_chain()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
-
 if "quick_query" not in st.session_state:
     st.session_state.quick_query = None
 
+# Chat container
 with st.container():
-    st.markdown('<div class="chat-area">', unsafe_allow_html=True)
+    st.markdown('<div style="max-width:820px;margin:0 auto;padding:24px 32px;">', unsafe_allow_html=True)
 
     if not st.session_state.messages:
         st.markdown("""
-        <div class="welcome-card">
-            <div class="welcome-title">Welcome to VVIT College Assistant</div>
-            <div class="welcome-text">
-                I'm trained on VVIT's official data — departments, faculty, placements, syllabus, facilities and more.
-                Ask me anything about college life at VVIT or use the quick questions in the sidebar.
+        <div style="background:#0D1117;border:1px solid #21262D;border-left:3px solid #E6A817;border-radius:10px;padding:20px 24px;margin-bottom:20px;">
+            <div style="color:#E6A817;font-size:15px;font-weight:500;margin-bottom:8px;">👋 Welcome to VVIT College Assistant</div>
+            <div style="color:#8B949E;font-size:13px;line-height:1.7;">
+                I'm trained on VVIT's official data — departments, faculty, placements, R23 syllabus, facilities and more.<br>
+                Use the sidebar for quick questions or type anything below.
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+            <div style="background:#0D1117;border:1px solid #21262D;border-radius:8px;padding:14px;cursor:pointer;">
+                <div style="color:#E6A817;font-size:13px;font-weight:500;margin-bottom:4px;">📊 Placements</div>
+                <div style="color:#484F58;font-size:12px;">Top packages, recruiters and stats</div>
+            </div>
+            <div style="background:#0D1117;border:1px solid #21262D;border-radius:8px;padding:14px;cursor:pointer;">
+                <div style="color:#E6A817;font-size:13px;font-weight:500;margin-bottom:4px;">📚 R23 Syllabus</div>
+                <div style="color:#484F58;font-size:12px;">Subject-wise curriculum details</div>
+            </div>
+            <div style="background:#0D1117;border:1px solid #21262D;border-radius:8px;padding:14px;cursor:pointer;">
+                <div style="color:#E6A817;font-size:13px;font-weight:500;margin-bottom:4px;">👨‍🏫 Faculty</div>
+                <div style="color:#484F58;font-size:12px;">Department-wise faculty details</div>
+            </div>
+            <div style="background:#0D1117;border:1px solid #21262D;border-radius:8px;padding:14px;cursor:pointer;">
+                <div style="color:#E6A817;font-size:13px;font-weight:500;margin-bottom:4px;">🏛️ Campus Life</div>
+                <div style="color:#484F58;font-size:12px;">Hostel, sports, clubs and more</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -322,11 +207,9 @@ with st.container():
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if msg.get("sources"):
-                cols = st.columns([1])
-                with cols[0]:
-                    with st.expander("Sources", expanded=False):
-                        for src in msg["sources"]:
-                            st.markdown(f"`{src}`")
+                with st.expander("Sources", expanded=False):
+                    for src in msg["sources"]:
+                        st.markdown(f"`{src}`")
 
     prompt = st.chat_input("Ask anything about VVIT...")
 
@@ -338,22 +221,19 @@ with st.container():
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
-
         with st.chat_message("assistant"):
-            with st.spinner(""):
+            with st.spinner("Thinking..."):
                 from chatbot import ask
                 answer, sources = ask(chain_tuple, prompt)
                 st.markdown(answer)
                 source_list = list(set(
-                    doc.metadata.get('source', '').replace('data\\', '').replace('data/', '')
-                    for doc in sources
-                    if doc.metadata.get('source')
+                    doc.metadata.get('source','').replace('data\\','').replace('data/','')
+                    for doc in sources if doc.metadata.get('source')
                 ))
                 if source_list:
                     with st.expander("Sources", expanded=False):
                         for src in source_list:
                             st.markdown(f"`{src}`")
-
         st.session_state.messages.append({
             "role": "assistant",
             "content": answer,
